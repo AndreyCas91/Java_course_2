@@ -1,11 +1,9 @@
 package hw3;
 
-import javax.sound.midi.Soundbank;
-import java.sql.SQLOutput;
 import java.util.*;
-import java.util.function.IntFunction;
 
 public class Main {
+
     public static void main(String[] args) {
         List<String> list = new ArrayList<>(Arrays.asList(
                  "огонь", "звезда", "дерево", "тигр", "тигр",
@@ -27,41 +25,69 @@ public class Main {
         System.out.println(map);
 
 
+        System.out.println();
 
 
-
-        class telephoneDirectory{
+        class TelephoneDirectory {
+            private ArrayList telephoneDirectories;
             private String name;
             private Integer telephone;
 
-            public telephoneDirectory(String name, Integer telephone) {
+            public TelephoneDirectory() {
+            }
+
+            public TelephoneDirectory(String name, Integer telephone) {
                 this.name = name;
                 this.telephone = telephone;
             }
 
             @Override
             public String toString() {
-                return "Телефон из справочника на фамилию " + name + " - " + telephone;
+                return name;
             }
 
+            public void addArr(){
+                telephoneDirectories = new ArrayList<>();
+            }
+
+            public void add(String s, int i){
+//
+                telephoneDirectories.add(new TelephoneDirectory(s, i));
+            }
+
+//          Пробовал переопределить get. Пытолся через for пройтись по Листу и сравнить значения через переопределенный
+//            toString. не вышло
+
+//            public void get(String s){
+//                Object[] n = new Object[telephoneDirectories.size()];
+//                telephoneDirectories.toArray(n);
+//                Object t = (Object) s;
+//                System.out.println(n[1].equals(s));
+//                for (int i = 0; i < telephoneDirectories.size(); i++) {
+//                    if(s.equals(n[i])){
+//                        System.out.println("ghbdtn");
+//                    }
+//                }
+//            }
         }
 
-        List<telephoneDirectory> telephone = new ArrayList<>(Arrays.asList(
-                new telephoneDirectory("Petrov", 31220),
-                new telephoneDirectory("Ivanov", 40020),
-                new telephoneDirectory("Sidorov", 78002),
-                new telephoneDirectory("Petrov", 31111),
-                new telephoneDirectory("Kuznetsov", 22233),
-                new telephoneDirectory("Ivanov", 88898)
-        ));
 
-        telephone.add(new telephoneDirectory("Andreev", 55869));
-        System.out.println(telephone.get(6));
-
-
-
+        TelephoneDirectory te = new TelephoneDirectory();
+        te.addArr();
+        te.add("Petrov", 31220);
+        te.add("Ivanov", 40020);
+        te.add("Sidorov", 78002);
+        te.add("Petrov", 31111);
+        te.add("Kuznetsov", 22233);
+        te.add("Ivanov", 88898);
 
 
 
     }
+
+    void add(){
+
+    }
+
+
 }
