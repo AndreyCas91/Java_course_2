@@ -35,6 +35,7 @@ public class ClientHandler {
                                 nickname = newNick;
                                 sendMsg("/authok " + nickname);
                                 server.subscribe(this);
+                                server.subscribeNumber(this);
                                 System.out.println("Клиент " + nickname + " подключился");
                                 break;
                             } else {
@@ -51,7 +52,14 @@ public class ClientHandler {
                             out.writeUTF("/end");
                             break;
                         }
-                        server.broadCastMsg(this, str);
+
+                        if (str.startsWith("/w")) {
+                            server.broadCastMsgUser(this, str);
+                        } else {
+                            server.broadCastMsg(this, str);
+                        }
+
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
