@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ClientHandler {
 
@@ -14,6 +15,8 @@ public class ClientHandler {
     private String nickname;
     private String login;
 
+    public ClientHandler() {
+    }
 
     public ClientHandler(Server server, Socket socket) {
         try {
@@ -22,13 +25,18 @@ public class ClientHandler {
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
 
-            socket.setSoTimeout(5000);
-            socket.setSoTimeout(0);
 
             new Thread(() -> {
+
                 try {
+
                     // цикл аутентификации
                     while (true) {
+                        try {
+                            socket.setSoTimeout(120000);
+                        } catch (SocketException ignored) {
+
+                        }
                         String str = in.readUTF();
 
                         if (str.startsWith("/auth")) {
@@ -42,6 +50,7 @@ public class ClientHandler {
                                     sendMsg("/authok " + nickname);
                                     server.subscribe(this);
                                     System.out.println("Клиент " + nickname + " подключился");
+                                    socket.setSoTimeout(0);
                                     break;
                                 } else {
                                     sendMsg("С данной учетной записью уже зашли");
@@ -90,7 +99,7 @@ public class ClientHandler {
                         }
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
                 } finally {
                     System.out.println("Клиент отключился");
                     server.unsubscribe(this);
@@ -121,4 +130,5 @@ public class ClientHandler {
     public String getLogin() {
         return login;
     }
+
 }
